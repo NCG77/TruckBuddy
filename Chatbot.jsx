@@ -7,11 +7,18 @@ const Chatbot = () => {
     const [inputValue, setInputValue] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
+    const apiKey = process.env.REACT_APP_API_KEY;
+
     const toggleChat = () => {
         setIsOpen(!isOpen);
     };
 
     const handleSendMessage = async () => {
+        if (!apiKey) {
+            alert("API key is missing. Please check your environment configuration.");
+            return;
+        }
+
         if (inputValue.trim() === "") return;
 
         const userMessage = { sender: "user", text: inputValue };
@@ -19,12 +26,13 @@ const Chatbot = () => {
         setInputValue("");
 
         setIsLoading(true);
+
         try {
             const response = await fetch("https://api.openai.com/v1/completions", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
+                    Authorization: `Bearer ${apiKey}`,
                 },
                 body: JSON.stringify({
                     model: "text-davinci-003",
@@ -34,13 +42,26 @@ const Chatbot = () => {
                 }),
             });
 
-            const data = await response.json();
-            const botResponse = data.choices[0]?.text?.trim() || "I'm sorry, I couldn't understand that.";
 
+            if (!response.ok) {
+                throw new Error(`API Error: ${response.status} ${response.statusText}`);
+            }
+
+            const data = await response.json();
+
+            if (!data || !data.choices || !data.choices[0]?.text) {
+                throw new Error("Invalid response format from the API.");
+            }
+
+            const botResponse = data.choices[0].text.trim();
             const botMessage = { sender: "bot", text: botResponse };
             setMessages((prevMessages) => [...prevMessages, botMessage]);
         } catch (error) {
-            const errorMessage = { sender: "bot", text: "Error connecting to the server. Please try again later." };
+            console.error("Error fetching API:", error);
+            const errorMessage = {
+                sender: "bot",
+                text: "Sorry, there was an error connecting to the server. Please try again later.",
+            };
             setMessages((prevMessages) => [...prevMessages, errorMessage]);
         } finally {
             setIsLoading(false);
@@ -57,7 +78,7 @@ const Chatbot = () => {
         <>
             <div className={`chatbot-container ${isOpen ? "chatbot-open" : ""}`}>
                 <div className="chatbot-header">
-                    <h4>Truck Budd Chatbot</h4>
+                    <h4>Truck Buddy Chatbot</h4>
                     <button className="close-chat-btn" onClick={toggleChat}>
                         ✖
                     </button>
