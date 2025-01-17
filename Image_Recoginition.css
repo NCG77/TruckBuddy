@@ -1,0 +1,108 @@
+/* Image_Recoginition.css */
+
+/* Body Section */
+.body {
+    padding: 2rem;
+}
+
+.dashboard {
+    margin: 0 auto;
+    max-width: 800px;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 2rem;
+}
+
+.Image__adding__space {
+    text-align: center;
+}
+
+.Image__adding__space h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.Image__adding__space p {
+    font-size: 1rem;
+    color: #666;
+    margin-top: 0;
+}
+
+/* Image Upload Form */
+.image-upload-form {
+    margin-top: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+input[type="file"],
+textarea {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.image-preview {
+    max-width: 100%;
+    height: auto;
+    margin-top: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.preview h4 {
+    margin-top: 1rem;
+}
+
+.btn {
+    background-color: #007bff;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .nav__links {
+        display: none;
+    }
+
+    .nav__links.open {
+        display: flex;
+    }
+
+    .dashboard {
+        padding: 1rem;
+    }
+
+    .Image__adding__space h2 {
+        font-size: 1.5rem;
+    }
+
+    .Image__adding__space p {
+        font-size: 0.9rem;
+    }
+}
